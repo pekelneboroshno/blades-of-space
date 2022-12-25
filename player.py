@@ -1,5 +1,27 @@
 import pygame
-from sys import exit
+from dataclasses import dataclass
+from pygame import Rect
+
+YELLOW = (255, 255, 0)
+
+
+@dataclass
+class Laser:
+    x: int
+    y: int
+    width: int = 3
+    height: int = 10
+    color: tuple = YELLOW
+    vel: int = 4
+    is_visible: bool = True
+    rect: Rect = None
+
+    def draw(self, win):
+        self.y -= self.vel
+        self.rect = pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
+
+
+LASSERS: list[Laser] = []
 
 
 class Player(pygame.sprite.Sprite):
@@ -9,7 +31,15 @@ class Player(pygame.sprite.Sprite):
         self.rect : pygame.Rect = self.image.get_rect(midbottom = (400, 700))
         self.move_speed = 3
 
-    def player_input(self):
+    @property
+    def left_gun_pos(self):
+        return self.rect.x + 41
+
+    @property
+    def right_gun_pos(self):
+        return self.rect.x + 80
+
+    def player_movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.move_speed
@@ -20,5 +50,12 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.rect.y += self.move_speed
 
+    def player_fire(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            LASSERS.append(Laser(self.left_gun_pos, self.rect.y))
+            LASSERS.append(Laser(self.right_gun_pos, self.rect.y))
+
     def update(self):
-        self.player_input()
+        self.player_movement()
+        return self.player_fire()
