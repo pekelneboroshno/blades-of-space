@@ -1,14 +1,15 @@
 import pygame
+
 from player import Player, LASSERS, Laser
-from enemy import Enemy
 from explosion import Explosion
+from state import GameState, Phase
+from enemies import Bee
 
 
-def process_collision(enemies: Enemy, lasser: Laser, win):
+def process_collision(enemies: pygame.sprite.Group, lasser: Laser, win):
     for enemy in enemies:
         if pygame.sprite.collide_rect(enemy, lasser):
-            enemies.empty()
-            return True
+            enemy.kill()
 
 
 def draw_explosions(explosions: list[Explosion], win):
@@ -36,8 +37,8 @@ def run():
     player = pygame.sprite.GroupSingle()
     player.add(Player())
 
-    enemy = pygame.sprite.GroupSingle()
-    enemy.add(Enemy())
+    enemy = pygame.sprite.Group()
+    enemy.add(Bee(), Bee(250), Bee(50))
 
     explosions = []
 
@@ -54,8 +55,9 @@ def run():
         player.draw(screen)
         player.update()
 
-        enemy.draw(screen)
-        enemy.update()
+        if GameState.phase == Phase.BEES:
+            enemy.draw(screen)
+            enemy.update()
 
         for lasser in LASSERS:
             lasser.draw(screen)
