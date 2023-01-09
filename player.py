@@ -1,6 +1,7 @@
 import pygame
 from dataclasses import dataclass
 from pygame import Rect
+from settings import PROJECT_DIR
 
 YELLOW = (255, 255, 0)
 
@@ -27,7 +28,7 @@ LASSERS: list[Laser] = []
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('player.png').convert_alpha()
+        self.image = pygame.image.load(PROJECT_DIR + 'player.png').convert_alpha()
         self.rect : pygame.Rect = self.image.get_rect(midbottom = (400, 700))
         self.move_speed = 3
 

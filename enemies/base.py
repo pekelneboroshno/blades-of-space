@@ -1,7 +1,5 @@
 import pygame
 
-PROJECT_DIR = "/home/alex/projects/pygame_games/blades_of_space"
-
 
 class AI:
 
