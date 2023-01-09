@@ -22,6 +22,7 @@ def run():
                 exit()
 
         screen.fill((0,0,0))
+
         stage.run()
 
         pygame.display.update()

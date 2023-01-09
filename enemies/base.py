@@ -1,45 +1,24 @@
 import pygame
+from typing import Protocol
+from blades_of_space.settings import WIDTH
+from abc import ABCMeta, abstractmethod
 
 
-class AI:
-
-    def __init__(self):
-        self.counter = 400
-
-    def rectangle_move(self) -> tuple:
-
-        if self.counter == 0:
-            self.counter = 400
-
-        self.counter -= 1
-
-        while True:
-
-            if self.counter >= 300:
-                return (1, 0)
-            elif self.counter >= 200:
-                return (0, 1)
-            elif self.counter >= 100:
-                return (-1, 0)
-            elif self.counter >= 0:
-                return (0, -1)
-
-    def move(self):
-        return self.rectangle_move()
+class AI(Protocol):
+    def move(self) -> tuple:
+        ...
 
 
-class Enemy(pygame.sprite.Sprite):
+class Enemy(pygame.sprite.Sprite, metaclass=ABCMeta):
 
+    @abstractmethod
     def set_image(self):
-        self.image = pygame.transform.rotate(
-            pygame.image.load('enemy1.png').convert_alpha(), 180
-        )
+        pass
 
-    def __init__(self, screen_x: int = 400, screen_y: int = 150):
+    def __init__(self, ai: AI, screen_x: int = WIDTH, screen_y: int = 0):
         self.set_image()
         self.rect : pygame.Rect = self.image.get_rect(midbottom = (screen_x, screen_y))
-        self.move_speed = 3
-        self.ai = AI()
+        self.ai = ai
         self.velocity = 2
         super().__init__()
 

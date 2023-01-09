@@ -18,13 +18,13 @@ def generate_direction() -> tuple:
 class Spark:
     x: int
     y: int
-    width: int = 7
-    height: int = 7
+    width: int = field(default_factory=lambda: random.randint(5, 7))
+    height: int = field(default_factory=lambda: random.randint(2, 7))
     color: tuple = field(default_factory=lambda: random.choice([YELLOW, BLOODY_RED, LIGHT_YELLOW]))
     vel: float = field(default_factory=lambda: random.uniform(0.1, 1.5))
-    timer: int = 0
+    timer: int = field(default_factory=lambda: random.randint(-25, 0))
     is_visible: bool = True
-    rect: Union[Rect, None] = None
+    rect: Rect | None = None
     direction: tuple = field(default_factory=generate_direction)
 
     def draw(self, win):
@@ -42,7 +42,7 @@ class Explosion:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
-        self.sparks = [Spark(self.x, self.y) for i in range(100)]
+        self.sparks = [Spark(self.x, self.y) for i in range(200)]
 
     def draw(self, win):
         for spark in self.sparks:
