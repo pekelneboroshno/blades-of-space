@@ -34,9 +34,9 @@ class Stage:
         for enemy in self.enemies:
             enemy.timeout = timeout
             enemy.ai = bee_ai_left
-            enemy.rect.x = 0
-            enemy.rect.y = 0
-            timeout += 30
+            enemy.rect.x = -enemy.rect.width
+            enemy.rect.y = enemy.rect.height
+            timeout += 20
 
     def is_enemies_visible(self):
         for i, enemy in enumerate(self.enemies):
@@ -69,13 +69,8 @@ def get_game_stage(screen):
     player.add(Player())
 
     enemies = pygame.sprite.Group()
-    enemies.add(
-        Bee(BeeAI()),
-        Bee(BeeAI(), timeout=30),
-        Bee(BeeAI(), timeout=60),
-        Bee(BeeAI(), timeout=90),
-        Bee(BeeAI(), timeout=120),
-        Bee(BeeAI(), timeout=150),
-        Bee(BeeAI(), timeout=180),
-    )
+    for timeout in range(0, 300, 20):
+        enemies.add(
+            Bee(BeeAI(), timeout),
+        )
     yield Stage(player=player, enemies=enemies, screen=screen)
