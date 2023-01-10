@@ -1,7 +1,8 @@
 import pygame
 from dataclasses import dataclass
 from pygame import Rect
-from settings import PROJECT_DIR
+from .settings import PROJECT_DIR
+# from .events import post_event
 
 YELLOW = (255, 255, 0)
 
@@ -56,6 +57,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             LASSERS.append(Laser(self.left_gun_pos, self.rect.y))
             LASSERS.append(Laser(self.right_gun_pos, self.rect.y))
+        # post_event("shoot")
 
     def update(self):
         self.player_movement()

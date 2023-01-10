@@ -1,7 +1,7 @@
 import pygame
 
 from .settings import WIDTH, HEIGHT
-from .stages.stage1 import get_game_stage
+from .stages import get_game_stage
 
 
 def run():
@@ -23,7 +23,8 @@ def run():
 
         screen.fill((0,0,0))
 
-        stage.run()
+        if stage.run():
+            stage = next(stage_gen)
 
         pygame.display.update()
         clock.tick(60)

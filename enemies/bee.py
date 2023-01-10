@@ -33,5 +33,5 @@ class Bee(Enemy):
 
     def set_image(self):
         self.image = pygame.transform.rotate(
-            pygame.image.load(f"{PROJECT_DIR}\\images\\Bee.png" ).convert_alpha(), 180
+            pygame.image.load(f"{PROJECT_DIR}/images/Bee.png" ).convert_alpha(), 180
         )

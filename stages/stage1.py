@@ -1,5 +1,4 @@
 import pygame
-from copy import copy
 from pygame.sprite import Group, GroupSingle
 from ..enemies import Bee, BeeAI, bee_ai_left
 from ..player import Player, LASSERS, Laser
@@ -35,13 +34,14 @@ class Stage:
             enemy.timeout = timeout
             enemy.ai = bee_ai_left
             enemy.rect.x = -enemy.rect.width
-            enemy.rect.y = enemy.rect.height
+            enemy.rect.y = -enemy.rect.height
             timeout += 20
 
     def is_enemies_visible(self):
         for i, enemy in enumerate(self.enemies):
-            if i + 1 == len(self.enemies) and enemy.rect.x <= -HEIGHT:
-                self.reset_appearence()
+            if i + 1 == len(self.enemies): 
+                if enemy.rect.x <= -HEIGHT:
+                    self.reset_appearence()
 
     def run(self):
         self.background.custom_update(self.screen, HEIGHT)
@@ -63,14 +63,6 @@ class Stage:
 
         self.draw_explosions()
 
+        if not self.enemies:
+            return True
 
-def get_game_stage(screen):
-    player = pygame.sprite.GroupSingle()
-    player.add(Player())
-
-    enemies = pygame.sprite.Group()
-    for timeout in range(0, 300, 20):
-        enemies.add(
-            Bee(BeeAI(), timeout),
-        )
-    yield Stage(player=player, enemies=enemies, screen=screen)
