@@ -6,7 +6,7 @@ from ..player import Player
 
 def get_game_stage(screen):
     player = pygame.sprite.GroupSingle()
-    player.add(Player())
+    player.add(Player(screen))
 
     enemies = pygame.sprite.Group()
     for timeout in range(0, 200, 20):

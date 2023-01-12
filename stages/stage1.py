@@ -1,10 +1,11 @@
 import pygame
 from pygame.sprite import Group, GroupSingle
-from ..enemies import Bee, BeeAI, bee_ai_left
-from ..player import Player, LASSERS, Laser
+from ..enemies import bee_ai_left
+from ..player import lazers, Lazer
 from ..explosion import Explosion
 from ..background import Background
 from ..settings import HEIGHT
+from ..event_handlers import setup_shoot_event_handler
 
 
 class Stage:
@@ -15,10 +16,14 @@ class Stage:
         self.screen = screen
         self.explosions: list[Explosion] = []
         self.background = Background()
+        self.init_sound()
 
-    def process_collision(self, enemies: pygame.sprite.Group, lasser: Laser) -> bool:
+    def init_sound(self):
+        setup_shoot_event_handler()
+
+    def process_lazer_collision(self, enemies: pygame.sprite.Group, lazer: Lazer) -> bool:
         for enemy in enemies:
-            if pygame.sprite.collide_rect(enemy, lasser):
+            if pygame.sprite.collide_rect(enemy, lazer):
                 enemy.kill()
                 return True
 
@@ -39,9 +44,18 @@ class Stage:
 
     def is_enemies_visible(self):
         for i, enemy in enumerate(self.enemies):
-            if i + 1 == len(self.enemies): 
+            if i + 1 == len(self.enemies):
                 if enemy.rect.x <= -HEIGHT:
                     self.reset_appearence()
+
+    def process_player_collisions(self):
+        enemy = self.player.sprite & self.enemies
+        if enemy:
+            enemy.kill()
+            self.explosions.append(Explosion(
+                enemy.rect.x + enemy.rect.width / 2,
+                enemy.rect.y + enemy.rect.height / 2
+            ))
 
     def run(self):
         self.background.custom_update(self.screen, HEIGHT)
@@ -54,15 +68,15 @@ class Stage:
 
         self.is_enemies_visible()
 
-        for lasser in LASSERS:
-            lasser.draw(self.screen)
+        lazers.draw(self.screen)
+        lazers.update()
 
-            hit = self.process_collision(self.enemies, lasser)
+        for lazer in lazers:
+            hit = self.process_lazer_collision(self.enemies, lazer)
             if hit:
-                self.explosions.append(Explosion(lasser.rect.x, lasser.rect.y))
+                lazer.kill()
+                self.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
+
+        self.process_player_collisions()
 
         self.draw_explosions()
-
-        if not self.enemies:
-            return True
-
