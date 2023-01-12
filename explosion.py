@@ -1,7 +1,6 @@
 import pygame
 import random
 from dataclasses import dataclass, field
-from typing import Union
 from pygame import Rect
 
 
@@ -42,7 +41,7 @@ class Explosion:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
-        self.sparks = [Spark(self.x, self.y) for i in range(200)]
+        self.sparks = [Spark(self.x, self.y) for _ in range(200)]
 
     def draw(self, win):
         for spark in self.sparks:
