@@ -1,3 +1,3 @@
-from .bee import Bee, BeeAI, bee_ai_left
+from .bee import Bee, BeeAI
 
-__all__ = ["Bee", "BeeAI", "bee_ai_left", "bee_ai_right"]
+__all__ = ["Bee", "BeeAI"]

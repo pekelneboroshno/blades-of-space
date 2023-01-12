@@ -1,10 +1,11 @@
 import pygame
+from typing import Generator
 from pygame.sprite import Group, GroupSingle
-from ..enemies import bee_ai_left
+from ..enemies import Bee
 from ..player import lazers, Lazer
 from ..explosion import Explosion
 from ..background import Background
-from ..settings import HEIGHT
+from ..settings import HEIGHT, STAGE_FINISHED
 from ..event_handlers import setup_shoot_event_handler
 
 
@@ -17,6 +18,7 @@ class Stage:
         self.explosions: list[Explosion] = []
         self.background = Background()
         self.init_sound()
+        self.reset_direction: Generator = self.reset_appearence()
 
     def init_sound(self):
         setup_shoot_event_handler()
@@ -26,7 +28,6 @@ class Stage:
             if pygame.sprite.collide_rect(enemy, lazer):
                 enemy.kill()
                 return True
-
         return False
 
     def draw_explosions(self):
@@ -34,19 +35,28 @@ class Stage:
             explosion.draw(self.screen)
 
     def reset_appearence(self):
-        timeout = 0
-        for enemy in self.enemies:
-            enemy.timeout = timeout
-            enemy.ai = bee_ai_left
-            enemy.rect.x = -enemy.rect.width
-            enemy.rect.y = -enemy.rect.height
-            timeout += 20
+        while True:
+            timeout = 0
+            increase_timeout = 20
+            for enemy in self.enemies:
+                enemy.timeout = timeout
+                enemy.ai = Bee.bee_ai_left
+                enemy.rect.x, enemy.rect.y = Bee.LEFT_START_POSITION
+                timeout += increase_timeout
+            yield
+            timeout = 0
+            for enemy in self.enemies:
+                enemy.timeout = timeout
+                enemy.ai = Bee.bee_ai_right
+                enemy.rect.x, enemy.rect.y = Bee.RIGHT_START_POSITION
+                timeout += increase_timeout
+            yield
 
     def is_enemies_visible(self):
         for i, enemy in enumerate(self.enemies):
             if i + 1 == len(self.enemies):
-                if enemy.rect.x <= -HEIGHT:
-                    self.reset_appearence()
+                if enemy.rect.y >= HEIGHT + 300:
+                    next(self.reset_direction)
 
     def process_player_collisions(self):
         enemy = self.player.sprite & self.enemies
@@ -80,3 +90,5 @@ class Stage:
         self.process_player_collisions()
 
         self.draw_explosions()
+        if not len(self.enemies):
+            return STAGE_FINISHED
