@@ -1,4 +1,4 @@
 from .bee import Bee, BeeAI
-from .tween import Tween
+from .tween import Twin
 
-__all__ = ["Bee", "BeeAI", "Tween"]
+__all__ = ["Bee", "BeeAI", "Twin"]

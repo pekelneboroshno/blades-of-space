@@ -2,7 +2,7 @@ import pygame
 from .stage_protocol import BaseStage
 from typing import Generator
 from pygame.sprite import GroupSingle
-from blades_of_space.enemies import Tween
+from blades_of_space.enemies import Twin
 from blades_of_space.player import lazers
 from blades_of_space.explosion import Explosion
 from blades_of_space.settings import HEIGHT, STAGE_FINISHED
@@ -15,7 +15,7 @@ class Stage2(BaseStage):
         self.enemies = pygame.sprite.Group()
         for timeout in range(0, 200, 20):
             self.enemies.add(
-                Tween(timeout),
+                Twin(timeout),
             )
 
         self.reset_direction: Generator = self.reset_appearence()
@@ -27,15 +27,15 @@ class Stage2(BaseStage):
             increase_timeout = 20
             for enemy in self.enemies:
                 enemy.timeout = timeout
-                enemy.ai = Tween.bee_ai_left
-                enemy.rect.x, enemy.rect.y = Tween.LEFT_START_POSITION
+                enemy.ai = Twin.bee_ai_left
+                enemy.rect.x, enemy.rect.y = Twin.LEFT_START_POSITION
                 timeout += increase_timeout
             yield
             timeout = 0
             for enemy in self.enemies:
                 enemy.timeout = timeout
-                enemy.ai = Tween.bee_ai_right
-                enemy.rect.x, enemy.rect.y = Tween.RIGHT_START_POSITION
+                enemy.ai = Twin.bee_ai_right
+                enemy.rect.x, enemy.rect.y = Twin.RIGHT_START_POSITION
                 timeout += increase_timeout
             yield
 
