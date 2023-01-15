@@ -16,6 +16,7 @@ class Enemy(pygame.sprite.Sprite, metaclass=ABCMeta):
         pass
 
     def __init__(self, ai: AI, screen_x: int = WIDTH, screen_y: int = 0):
+        self.image: pygame.Surface
         self.set_image()
         self.rect : pygame.Rect = self.image.get_rect(midbottom = (screen_x, screen_y))
         self.ai = ai

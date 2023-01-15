@@ -16,7 +16,7 @@ class EngineContext:
         self.background = Background()
         self.explosions: list[Explosion] = []
         self.screen = screen
-        self.stages: Generator = get_game_stage(self.player)
+        self.stages: Generator = get_game_stage(self.player, self)
         self.init_first_stage()
         self.init_sound()
 

@@ -1,4 +1,5 @@
 import pygame
+from .stage_protocol import BaseStage
 from typing import Generator
 from pygame.sprite import GroupSingle
 from blades_of_space.enemies import Bee
@@ -6,11 +7,9 @@ from blades_of_space.player import lazers
 from blades_of_space.explosion import Explosion
 from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
+class Stage(BaseStage):
 
-class Stage:
-
-    def __init__(self, player: GroupSingle):
-        from blades_of_space.engine import EngineContext
+    def __init__(self, player: GroupSingle, engine):
         self.player = player
         self.enemies = pygame.sprite.Group()
         for timeout in range(0, 200, 20):
@@ -19,7 +18,7 @@ class Stage:
             )
 
         self.reset_direction: Generator = self.reset_appearence()
-        self.engine : EngineContext
+        self.engine = engine
 
     def reset_appearence(self):
         while True:

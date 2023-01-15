@@ -15,7 +15,7 @@ class BeeAILeft:
         return (1.5, 1.5)
 
 
-class Bee(Enemy):
+class Tween(Enemy):
 
     bee_ai_left = BeeAILeft()
     bee_ai_right = BeeAI()
@@ -36,5 +36,5 @@ class Bee(Enemy):
 
     def set_image(self):
         self.image = pygame.transform.rotate(
-            pygame.image.load(f"{PROJECT_DIR}/images/Bee.png" ).convert_alpha(), 180
+            pygame.image.load(f"{PROJECT_DIR}/images/Tween.png" ).convert_alpha(), 180
         )
