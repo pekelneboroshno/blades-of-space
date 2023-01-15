@@ -1,23 +1,10 @@
-import pygame
 from .stage1 import Stage
-from ..enemies import Bee
-from ..player import Player
+from .stage_protocol import BaseStage
 
 
-def get_game_stage(screen):
-    player = pygame.sprite.GroupSingle()
-    player.add(Player(screen))
+def get_game_stage(player):
 
-    enemies = pygame.sprite.Group()
-    for timeout in range(0, 200, 20):
-        enemies.add(
-            Bee(timeout),
-        )
-    yield Stage(player=player, enemies=enemies, screen=screen)
+    yield Stage(player=player)
 
-    for timeout in range(0, 20, 20):
-        enemies.add(
-            Bee(timeout),
-        )
 
-    yield Stage(player=player, enemies=enemies, screen=screen)
+__all__ = ["Stage", "BaseStage"]

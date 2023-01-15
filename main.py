@@ -1,18 +1,20 @@
 import pygame
-from typing import Generator
+from .player import Player
 
 from .settings import WIDTH, HEIGHT
-from .stages import get_game_stage
+from .engine import EngineContext
 
 
 def run():
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Blades of spaces v.0.1')
+    pygame.display.set_caption('Blades of spaces v.0.2')
 
-    stage: Generator = get_game_stage(screen)
-    current_stage = next(stage)
+    player = pygame.sprite.GroupSingle()
+    player.add(Player(screen))
+
+    engine = EngineContext(player, screen)
 
     clock = pygame.time.Clock()
 
@@ -24,8 +26,7 @@ def run():
 
             screen.fill((0,0,0))
 
-        if current_stage.run():
-            current_stage = next(stage)
+        engine.run()
 
         pygame.display.update()
         clock.tick(60)

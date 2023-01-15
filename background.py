@@ -1,9 +1,9 @@
 import pygame
-from .settings import PROJECT_DIR
 
 class Background:
 
     def __init__(self):
+        from blades_of_space.settings import PROJECT_DIR
         self.height = 1536
         self.image = pygame.image.load(PROJECT_DIR + 'starfield.jpg').convert()
         self.screen_pos = 0

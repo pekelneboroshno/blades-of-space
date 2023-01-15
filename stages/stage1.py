@@ -1,38 +1,25 @@
 import pygame
 from typing import Generator
-from pygame.sprite import Group, GroupSingle
-from ..enemies import Bee
-from ..player import lazers, Lazer
-from ..explosion import Explosion
-from ..background import Background
-from ..settings import HEIGHT, STAGE_FINISHED
-from ..event_handlers import setup_shoot_event_handler
+from pygame.sprite import GroupSingle
+from blades_of_space.enemies import Bee
+from blades_of_space.player import lazers
+from blades_of_space.explosion import Explosion
+from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
 
 class Stage:
 
-    def __init__(self, player: GroupSingle, enemies: Group, screen):
+    def __init__(self, player: GroupSingle):
+        from blades_of_space.engine import EngineContext
         self.player = player
-        self.enemies = enemies
-        self.screen = screen
-        self.explosions: list[Explosion] = []
-        self.background = Background()
-        self.init_sound()
+        self.enemies = pygame.sprite.Group()
+        for timeout in range(0, 200, 20):
+            self.enemies.add(
+                Bee(timeout),
+            )
+
         self.reset_direction: Generator = self.reset_appearence()
-
-    def init_sound(self):
-        setup_shoot_event_handler()
-
-    def process_lazer_collision(self, enemies: pygame.sprite.Group, lazer: Lazer) -> bool:
-        for enemy in enemies:
-            if pygame.sprite.collide_rect(enemy, lazer):
-                enemy.kill()
-                return True
-        return False
-
-    def draw_explosions(self):
-        for explosion in self.explosions:
-            explosion.draw(self.screen)
+        self.engine : EngineContext
 
     def reset_appearence(self):
         while True:
@@ -58,37 +45,27 @@ class Stage:
                 if enemy.rect.y >= HEIGHT + 300:
                     next(self.reset_direction)
 
-    def process_player_collisions(self):
-        enemy = self.player.sprite & self.enemies
-        if enemy:
-            enemy.kill()
-            self.explosions.append(Explosion(
-                enemy.rect.x + enemy.rect.width / 2,
-                enemy.rect.y + enemy.rect.height / 2
-            ))
-
     def run(self):
-        self.background.custom_update(self.screen, HEIGHT)
 
-        self.player.draw(self.screen)
+        self.player.draw(self.engine.screen)
         self.player.update()
 
-        self.enemies.draw(self.screen)
+        self.enemies.draw(self.engine.screen)
         self.enemies.update()
 
         self.is_enemies_visible()
 
-        lazers.draw(self.screen)
+        lazers.draw(self.engine.screen)
         lazers.update()
 
         for lazer in lazers:
-            hit = self.process_lazer_collision(self.enemies, lazer)
+            hit = self.engine.process_lazer_collision(self.enemies, lazer)
             if hit:
                 lazer.kill()
-                self.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
+                self.engine.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
 
-        self.process_player_collisions()
+        self.engine.process_player_collisions(self.enemies)
 
-        self.draw_explosions()
+        self.engine.draw_explosions()
         if not len(self.enemies):
             return STAGE_FINISHED
