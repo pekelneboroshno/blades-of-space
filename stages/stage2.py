@@ -13,10 +13,10 @@ class Stage2(BaseStage):
     def __init__(self, player: GroupSingle, engine):
         self.player = player
         self.enemies = pygame.sprite.Group()
-        for timeout in range(0, 200, 20):
-            self.enemies.add(
-                Twin(timeout),
-            )
+        self.enemies.add(
+            Twin(0),
+            Twin(0, Twin.LEFT_START_POSITION, Twin.ai_left)
+        )
 
         self.reset_direction: Generator = self.reset_appearence()
         self.engine = engine

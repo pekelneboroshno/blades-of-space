@@ -3,31 +3,31 @@ from .base import Enemy
 from blades_of_space.settings import PROJECT_DIR, WIDTH
 
 
-class BeeAI:
+class AIRight:
 
     def move(self) -> tuple:
-        return (-1.5, 1.5)
+        return (-1, 0)
 
 
-class BeeAILeft:
+class AILeft:
 
     def move(self) -> tuple:
-        return (1.5, 1.5)
+        return (1, 0)
 
 
 class Twin(Enemy):
 
-    bee_ai_left = BeeAILeft()
-    bee_ai_right = BeeAI()
+    ai_left = AILeft()
+    ai_right = AIRight()
 
-    RIGHT_START_POSITION = (WIDTH, -140)
-    LEFT_START_POSITION = (-60, -140)
+    RIGHT_START_POSITION = (WIDTH, 0)
+    LEFT_START_POSITION = (-230, 0)
 
-    def __init__(self, timeout = 0):
+    def __init__(self, timeout = 0, position: tuple = RIGHT_START_POSITION, config = ai_right):
         self.timeout = timeout
-        super().__init__(self.bee_ai_right)
-        self.velocity = 4
-        self.rect.x, self.rect.y = self.RIGHT_START_POSITION
+        super().__init__(config)
+        self.velocity = 2
+        self.rect.x, self.rect.y = position
 
     def move(self):
         self.timeout -= 1
@@ -38,3 +38,4 @@ class Twin(Enemy):
         self.image = pygame.transform.rotate(
             pygame.image.load(f"{PROJECT_DIR}/images/Twin.png" ).convert_alpha(), 180
         )
+        self.image = pygame.transform.rotozoom(self.image, 1.0, 1.3)

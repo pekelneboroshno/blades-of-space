@@ -5,7 +5,7 @@ from .stage_protocol import BaseStage
 
 def get_game_stage(player, engine):
 
-    yield Stage(player, engine)
+    # yield Stage(player, engine)
     yield Stage2(player, engine)
 
 
