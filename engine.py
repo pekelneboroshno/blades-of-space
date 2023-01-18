@@ -51,7 +51,7 @@ class EngineContext:
     def process_lazer_collision(self, enemies: pygame.sprite.Group, lazer: Lazer) -> bool:
         for enemy in enemies:
             if pygame.sprite.collide_rect(enemy, lazer):
-                enemy.kill()
+                enemy.hit()
                 return True
         return False
 

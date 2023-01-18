@@ -38,10 +38,10 @@ class Spark:
 class Explosion:
     sparks: list[Spark] = field(default_factory=list)
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int, sparks_count: int = 200):
         self.x = x
         self.y = y
-        self.sparks = [Spark(self.x, self.y) for _ in range(200)]
+        self.sparks = [Spark(self.x, self.y) for _ in range(sparks_count)]
 
     def draw(self, win):
         for spark in self.sparks:
