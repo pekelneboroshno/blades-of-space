@@ -1,12 +1,16 @@
 import pygame
 from typing import Generator
-from blades_of_space.player import Lazer
 from event_handlers import setup_shoot_event_handler
 from pygame.sprite import GroupSingle
 from background import Background
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
 from blades_of_space.settings import HEIGHT
+from blades_of_space.player import lazers
+
+
+class GameContext:
+    """For running stages"""
 
 
 class EngineContext:
@@ -48,12 +52,13 @@ class EngineContext:
                 enemy.rect.y + enemy.rect.height / 2
             ))
 
-    def process_lazer_collision(self, enemies: pygame.sprite.Group, lazer: Lazer) -> bool:
-        for enemy in enemies:
-            if pygame.sprite.collide_rect(enemy, lazer):
-                enemy.hit()
-                return True
-        return False
+    def process_lazer_collision(self, enemies: pygame.sprite.Group):
+        for lazer in lazers:
+            for enemy in enemies:
+                if pygame.sprite.collide_rect(enemy, lazer):
+                    enemy.hit()
+                    lazer.kill()
+                    self.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
 
     def run(self):
         self.background.custom_update(self.screen, HEIGHT)

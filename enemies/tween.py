@@ -1,7 +1,7 @@
 import pygame
 from .base import Enemy
 from blades_of_space.settings import PROJECT_DIR, WIDTH
-from blades_of_space.explosion import Explosion
+from ..weapons import BigLazer
 
 
 class AIRight:
@@ -55,12 +55,22 @@ class Twin(Enemy):
         super().__init__(config)
         self.velocity = 2
         self.rect.x, self.rect.y = position
-        self.life = 10
+        self.hp = 10
+        self.lazers = pygame.sprite.Group()
 
     def hit(self):
-        self.life -= 1
-        if self.life <= 0:
+        self.hp -= 1
+        if self.hp <= 0:
             self.kill()
+
+    def shoot(self):
+        if self.timeout % 55 == 0:
+            self.lazers.add(
+                BigLazer(
+                    self.rect.width // 2 + self.rect.x,
+                    self.rect.height + self.rect.y
+                )
+            )
 
     def move(self):
         self.timeout -= 1
@@ -75,3 +85,11 @@ class Twin(Enemy):
             pygame.image.load(f"{PROJECT_DIR}/images/Twin.png" ).convert_alpha(), 180
         )
         self.image = pygame.transform.rotozoom(self.image, 1.0, 1.3)
+
+    def update(self, screen):
+        super().update()
+        self.shoot()
+
+        self.lazers.draw(screen)
+        self.lazers.update()
+
