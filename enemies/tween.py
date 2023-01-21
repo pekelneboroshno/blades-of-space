@@ -92,4 +92,3 @@ class Twin(Enemy):
 
         self.lazers.draw(screen)
         self.lazers.update()
-

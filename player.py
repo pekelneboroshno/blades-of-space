@@ -15,13 +15,14 @@ class Player(pygame.sprite.Sprite):
         self.speed = 3
         self.fire_delay = 0
         self.screen = screen
+        self.hp = 10
 
     # player intersects with group
-    def __and__(self, enemies: pygame.sprite.Group):
+    def __and__(self, group: pygame.sprite.Group):
 
-        for enemy in enemies:
-            if pygame.sprite.collide_rect(enemy, self):
-                return enemy
+        for item in group:
+            if pygame.sprite.collide_rect(item, self):
+                return item
 
         return None
 

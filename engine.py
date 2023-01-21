@@ -10,7 +10,7 @@ from blades_of_space.player import lazers
 
 
 class GameContext:
-    """For running stages"""
+    """For running stages strategies"""
 
 
 class EngineContext:
@@ -51,6 +51,18 @@ class EngineContext:
                 enemy.rect.x + enemy.rect.width / 2,
                 enemy.rect.y + enemy.rect.height / 2
             ))
+
+        self.process_player_collisions_with_lazers(enemies)
+
+    def process_player_collisions_with_lazers(self, enemies):
+        for enemy in enemies:
+            if hasattr(enemy, 'lazers'):
+                if lazer := self.player.sprite & enemy.lazers:
+                    lazer.kill()
+                    self.explosions.append(Explosion(
+                        enemy.rect.x + enemy.rect.width / 2,
+                        enemy.rect.y + enemy.rect.height / 2
+                    ))
 
     def process_lazer_collision(self, enemies: pygame.sprite.Group):
         for lazer in lazers:

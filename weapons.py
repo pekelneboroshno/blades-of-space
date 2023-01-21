@@ -20,6 +20,7 @@ def direction_from_enemy() -> Generator:
     while True:
         yield (randint(-1, 3), randint(2, 3))
 
+
 gen = direction_from_enemy()
 
 
