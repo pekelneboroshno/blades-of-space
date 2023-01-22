@@ -1,3 +1,4 @@
+import pygame
 from abc import ABC
 from pygame.sprite import GroupSingle, Group
 from typing import Any
@@ -26,3 +27,8 @@ class BaseStage(ABC):
         self.engine.process_player_collisions(self.enemies)
 
         self.engine.draw_explosions()
+
+        if self.player.sprite.hp <= 0:
+            print("player is killed")
+            pygame.quit()
+            exit()
