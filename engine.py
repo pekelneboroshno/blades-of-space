@@ -59,12 +59,12 @@ class EngineContext:
         for enemy in enemies:
             if hasattr(enemy, 'lazers'):
                 if lazer := self.player.sprite & enemy.lazers:
-                    lazer.kill()
                     player.hp -= 1
                     self.explosions.append(Explosion(
-                        player.rect.x + player.rect.width / 2,
-                        player.rect.y + player.rect.height / 2
+                        lazer.rect.x,
+                        lazer.rect.y
                     ))
+                    lazer.kill()
 
     def process_lazer_collision(self, enemies: pygame.sprite.Group):
         for lazer in lazers:
