@@ -1,34 +1,50 @@
 import pygame
+from enum import Enum, auto
 from .base import Enemy
-from blades_of_space.settings import PROJECT_DIR, WIDTH
+from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
 
 
-class Right:
+class Direction(Enum):
+    left = auto()
+    right = auto()
+    attack = auto()
+    back = auto()
 
-    def move(self) -> tuple:
-        return (-1.5, 1.5)
 
+class Movement:
 
-class Left:
+    def __init__(self, obj: Enemy):
+        self.direction = Direction.right
+        self.enemy = obj
 
-    def move(self) -> tuple:
-        return (1.5, 1.5)
+    def allow_attack(self):
+        return self.direction not in (Direction.attack, Direction.back) and \
+            self.enemy.rect.x in range(100, WIDTH, 200)
+
+    def change_direction(self):
+        if self.allow_attack():
+            self.direction = Direction.attack
+        elif self.direction != Direction.back and self.enemy.rect.y in range(HEIGHT - self.enemy.rect.height, HEIGHT):
+            self.direction = Direction.back
+
+    def move(self) -> tuple[float, float]:
+        self.change_direction()
+        if self.direction == Direction.right:
+            return (1.5, 0.0)
+        elif self.direction == Direction.attack:
+            return (0.0, 4.0)
+        elif self.direction == Direction.back:
+            return (0.0, -4.0)
 
 
 class Ram(Enemy):
 
-    bee_ai_left = Left()
-    bee_ai_right = Right()
-
-    RIGHT_START_POSITION = (WIDTH, -140)
-    LEFT_START_POSITION = (-60, -140)
-
     def __init__(self, timeout = 0):
         self.timeout = timeout
-        super().__init__(self.bee_ai_right)
+        super().__init__(Movement(self))
         self.velocity = 1
-        self.rect.x, self.rect.y = self.RIGHT_START_POSITION
-        self.hp = 10
+        self.rect.x, self.rect.y = -self.rect.width, 25
+        self.hp = 20
 
     def move(self):
         self.timeout -= 1
