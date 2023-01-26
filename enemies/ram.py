@@ -1,40 +1,94 @@
 import pygame
+from typing import Generator
 from enum import Enum, auto
 from .base import Enemy
 from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
 
 
-class Direction(Enum):
-    left = auto()
-    right = auto()
-    attack = auto()
-    back = auto()
+class SkipStep(Enum):
+    zero = auto()
+    first = auto()
+    second = auto()
+    third = auto()
+    fourth = auto()
+
+
+def move() -> Generator:
+    while True:
+        yield (1.5, 0.0), SkipStep.zero
+        yield (0.0, 4.0), SkipStep.first
+        yield (0.0, -4.0), SkipStep.second
+
+
+def move_left() -> Generator:
+    while True:
+        yield (-1.5, 0.0), SkipStep.zero
+        yield (0.0, 4.0), SkipStep.first
+        yield (0.0, -4.0), SkipStep.second
 
 
 class Movement:
 
     def __init__(self, obj: Enemy):
-        self.direction = Direction.right
         self.enemy = obj
+        self.mv = move()
+        self.skip_steps = set()
+        direction, skip = next(self.mv)
+        self.direction = direction
+        self.skip_steps.add(skip)
 
     def allow_attack(self):
-        return self.direction not in (Direction.attack, Direction.back) and \
-            self.enemy.rect.x in range(100, WIDTH, 200)
+        return self.enemy.rect.x in range(100, WIDTH, 200) \
+            and SkipStep.first not in self.skip_steps
+
+    def allow_back(self):
+        return self.enemy.rect.y in range(HEIGHT - self.enemy.rect.height, HEIGHT) \
+            and SkipStep.second not in self.skip_steps
+
+    def allow_right(self):
+        return self.enemy.rect.x in range(100, WIDTH, 200) \
+            and self.enemy.rect.y in range(25, 27) \
+            and self.skip_steps == {SkipStep.zero, SkipStep.first, SkipStep.second}
+
+    def allow_left(self):
+        visible_enemy_from_right = WIDTH - self.enemy.rect.width
+        return self.enemy.rect.x in range(visible_enemy_from_right - 10, visible_enemy_from_right) \
+            and self.enemy.rect.y in range(25, 30)
+
+    def allow_initial(self):
+        return self.enemy.rect.x in range(0, 10) \
+            and self.enemy.rect.y in range(25, 30) \
+
+    def next_direction(self):
+        direction, skip = next(self.mv)
+        self.direction = direction
+        self.skip_steps.add(skip)
+
+    def reset_direction(self):
+        self.skip_steps.clear()
+        self.next_direction()
+
+    def reset_left_direction(self):
+        self.skip_steps.clear()
+        self.mv = move_left()
+        self.next_direction()
+        self.moving_left = True
 
     def change_direction(self):
         if self.allow_attack():
-            self.direction = Direction.attack
-        elif self.direction != Direction.back and self.enemy.rect.y in range(HEIGHT - self.enemy.rect.height, HEIGHT):
-            self.direction = Direction.back
+            self.next_direction()
+        elif self.allow_back():
+            self.next_direction()
+        elif self.allow_right():
+            self.reset_direction()
+        elif self.allow_left():
+            self.reset_left_direction()
+        elif self.allow_initial():
+            self.reset_direction()
 
     def move(self) -> tuple[float, float]:
         self.change_direction()
-        if self.direction == Direction.right:
-            return (1.5, 0.0)
-        elif self.direction == Direction.attack:
-            return (0.0, 4.0)
-        elif self.direction == Direction.back:
-            return (0.0, -4.0)
+        return self.direction
 
 
 class Ram(Enemy):
