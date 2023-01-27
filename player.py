@@ -1,4 +1,5 @@
 import pygame
+import os
 from .settings import PROJECT_DIR
 from .events import post_event
 from .weapons import Lazer
@@ -10,7 +11,7 @@ lazers = pygame.sprite.Group()
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen):
         super().__init__()
-        self.image = pygame.image.load(PROJECT_DIR + 'player.png').convert_alpha()
+        self.image = pygame.image.load(os.path.join(PROJECT_DIR, 'images', 'player.png')).convert_alpha()
         self.rect : pygame.Rect = self.image.get_rect(midbottom = (400, 700))
         self.speed = 3
         self.fire_delay = 0

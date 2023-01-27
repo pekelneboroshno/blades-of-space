@@ -1,9 +1,9 @@
 import pygame
 from typing import Generator
 from enum import Enum, auto
-from .base import Enemy
 from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
 
+from .base import Enemy
 
 class SkipStep(Enum):
     zero = auto()
