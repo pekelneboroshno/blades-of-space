@@ -3,19 +3,20 @@ import pygame
 from .player import Player
 
 from .settings import WIDTH, HEIGHT
-from .engine import EngineContext
+from .engine import EngineContext, TitleScreen
 
 
 def run():
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Blades of spaces v.0.2.1')
+    pygame.display.set_caption('Blades of spaces v.0.2.2')
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(screen))
 
-    engine = EngineContext(player, screen)
+    # engine = EngineContext(player, screen)
+    engine = TitleScreen(screen)
 
     clock = pygame.time.Clock()
 

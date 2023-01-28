@@ -1,12 +1,33 @@
 import pygame
+
 from typing import Generator
 from event_handlers import setup_shoot_event_handler
 from pygame.sprite import GroupSingle
 from background import Background
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
-from blades_of_space.settings import HEIGHT
 from blades_of_space.player import lazers
+
+from blades_of_space.settings import PROJECT_DIR
+
+from .settings import WIDTH, HEIGHT
+
+
+
+class TitleScreen:
+    def __init__(self, screen):
+
+        self.screen = screen
+
+        self.image = pygame.image.load(PROJECT_DIR +  '/images/' + 'title_screen.jpg').convert()
+        self.image = pygame.transform.smoothscale(self.image,(WIDTH, HEIGHT))
+
+        font = pygame.font.SysFont('corbel', 68, True)
+        self.text = font.render('Blades of Space', True, (255, 255, 255))
+
+    def run(self):
+        self.screen.blit(self.image,(0, 0))
+        self.screen.blit(self.text, (20, 20))
 
 
 class GameContext:
