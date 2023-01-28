@@ -9,7 +9,7 @@ y_speed = float
 
 YELLOW = (255, 255, 0)
 OTHER = (255, 0, 255)
-
+RED = (237, 22, 7)
 
 def direction() -> tuple[x_speed, y_speed]:
     return (0, -5)
@@ -19,6 +19,11 @@ def direction_from_enemy() -> Generator:
     """tuple[x_speed, y_speed]:"""
     while True:
         yield (randint(-1, 3), randint(2, 3))
+
+
+def up_to_down() -> tuple[x_speed, y_speed]:
+    """tuple[x_speed, y_speed]:"""
+    return (0, 5)
 
 
 gen = direction_from_enemy()
@@ -50,3 +55,12 @@ class BigLazer(Lazer):
         self.direction = next(gen)
         self.image = pygame.Surface((10, 10))
         self.image.fill(OTHER)
+
+
+class VeryBigLazer(Lazer):
+
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.direction = up_to_down()
+        self.image = pygame.Surface((10, 25))
+        self.image.fill(RED)

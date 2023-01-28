@@ -38,3 +38,6 @@ class Bee(Enemy):
         self.image = pygame.transform.rotate(
             pygame.image.load(f"{PROJECT_DIR}/images/Bee.png" ).convert_alpha(), 180
         )
+
+    def update(self, screen):
+        super().update()

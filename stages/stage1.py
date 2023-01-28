@@ -7,6 +7,7 @@ from blades_of_space.player import lazers
 from blades_of_space.explosion import Explosion
 from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
+
 class Stage(BaseStage):
 
     def __init__(self, player: GroupSingle, engine):
