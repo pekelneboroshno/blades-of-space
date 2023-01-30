@@ -28,11 +28,17 @@ class Bee(Enemy):
         super().__init__(self.bee_ai_right)
         self.velocity = 4
         self.rect.x, self.rect.y = self.RIGHT_START_POSITION
+        self.hp = 3
 
     def move(self):
         self.timeout -= 1
         if self.timeout < 0:
             super().move()
+
+    def hit(self):
+        self.hp -= 1
+        if self.hp <= 0:
+            self.kill()
 
     def set_image(self):
         self.image = pygame.transform.rotate(

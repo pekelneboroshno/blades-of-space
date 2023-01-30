@@ -4,14 +4,14 @@ from typing import Generator
 from pygame.sprite import GroupSingle
 from blades_of_space.enemies import Bee
 from blades_of_space.player import lazers
-from blades_of_space.explosion import Explosion
 from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
 
 class Stage(BaseStage):
 
     def __init__(self, player: GroupSingle, engine):
-        self.player = player
+        super().__init__(player, engine)
+
         self.enemies = pygame.sprite.Group()
         for timeout in range(0, 200, 20):
             self.enemies.add(
@@ -19,7 +19,6 @@ class Stage(BaseStage):
             )
 
         self.reset_direction: Generator = self.reset_appearence()
-        self.engine = engine
 
     def reset_appearence(self):
         while True:
@@ -46,26 +45,12 @@ class Stage(BaseStage):
                     next(self.reset_direction)
 
     def run(self):
-
-        self.player.draw(self.engine.screen)
-        self.player.update(self.engine.screen)
-
-        self.enemies.draw(self.engine.screen)
-        self.enemies.update(self.engine.screen)
+        super().run()
 
         self.is_enemies_visible()
 
         lazers.draw(self.engine.screen)
         lazers.update()
 
-        for lazer in lazers:
-            hit = self.engine.process_lazer_collision(self.enemies, lazer)
-            if hit:
-                lazer.kill()
-                self.engine.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
-
-        self.engine.process_player_collisions(self.enemies)
-
-        self.engine.draw_explosions()
         if not len(self.enemies):
             return STAGE_FINISHED

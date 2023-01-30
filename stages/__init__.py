@@ -10,7 +10,7 @@ from .title_screen import TitleScreen
 def get_game_stage(player, engine):
 
     yield TitleScreen(player, engine)
-    # yield Stage(player, engine)
+    yield Stage(player, engine)
     # yield Stage2(player, engine)
     # yield Stage3(player, engine)
     # yield Stage4(player, engine)
