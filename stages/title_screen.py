@@ -20,7 +20,7 @@ class TitleScreen(BaseStage):
 
         self.start_game = pygame.font.\
                 SysFont('corbel', 18, True). \
-                render('press space to start', True, (255, 255, 255))
+                render('press enter to start', True, (255, 255, 255))
 
         self.developer = pygame.font.\
                 SysFont('corbel', 18, True). \
@@ -42,6 +42,6 @@ class TitleScreen(BaseStage):
 
     def handle_game_start(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_RETURN]:
             return True
         return False
