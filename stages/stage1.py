@@ -48,10 +48,10 @@ class Stage(BaseStage):
     def run(self):
 
         self.player.draw(self.engine.screen)
-        self.player.update()
+        self.player.update(self.engine.screen)
 
         self.enemies.draw(self.engine.screen)
-        self.enemies.update()
+        self.enemies.update(self.engine.screen)
 
         self.is_enemies_visible()
 

@@ -3,7 +3,7 @@ import pygame
 from .player import Player
 
 from .settings import WIDTH, HEIGHT
-from .engine import EngineContext, TitleScreen
+from .engine import EngineContext
 
 
 def run():
@@ -15,8 +15,7 @@ def run():
     player = pygame.sprite.GroupSingle()
     player.add(Player(screen))
 
-    # engine = EngineContext(player, screen)
-    engine = TitleScreen(screen)
+    engine = EngineContext(player, screen)
 
     clock = pygame.time.Clock()
 
