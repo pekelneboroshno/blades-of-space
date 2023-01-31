@@ -4,9 +4,9 @@ from dataclasses import dataclass, field
 from pygame import Rect
 
 
-YELLOW = (255, 255, 0)
-BLOODY_RED = (153, 0, 51)
-LIGHT_YELLOW = (153, 255, 204)
+YELLOW = (255, 255, 0,)
+BLOODY_RED = (153, 0, 51,)
+LIGHT_YELLOW = (153, 255, 204,)
 
 
 def generate_direction() -> tuple:
@@ -26,9 +26,9 @@ class Spark:
     rect: Rect | None = None
     direction: tuple = field(default_factory=generate_direction)
 
-    def draw(self, win):
+    def draw(self, screen):
         if self.timer < 100:
-            self.rect = pygame.draw.rect(win,self.color,(self.x,self.y,self.width,self.height))
+            self.rect = pygame.draw.rect(screen,self.color,(self.x,self.y,self.width,self.height))
 
         self.timer += 1
         self.x += self.direction[0] * self.vel

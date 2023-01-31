@@ -3,6 +3,7 @@ from .stage2 import Stage2
 from .stage3 import Stage3
 from .stage4 import Stage4
 from .stage5 import Stage5
+from .bridge import BridgeStage
 from .stage_protocol import BaseStage
 from .title_screen import TitleScreen
 
@@ -10,6 +11,7 @@ from .title_screen import TitleScreen
 def get_game_stage(player, engine):
 
     yield TitleScreen(player, engine)
+    yield BridgeStage(player, engine)
     yield Stage(player, engine)
     # yield Stage2(player, engine)
     # yield Stage3(player, engine)

@@ -3,7 +3,7 @@ import pygame
 from typing import Generator
 from event_handlers import setup_shoot_event_handler, setup_game_music
 from pygame.sprite import GroupSingle
-from background import Background
+from background import Background, DynamicBackground
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
 from blades_of_space.player import lazers
@@ -21,9 +21,9 @@ class EngineContext:
 
     def __init__(self, player: GroupSingle, screen):
         self.player = player
-        self.background = Background()
-        self.explosions: list[Explosion] = []
         self.screen = screen
+        self.background = DynamicBackground(self.screen)
+        self.explosions: list[Explosion] = []
         self.stages: Generator = get_game_stage(self.player, self)
         self.init_first_stage()
         self.init_sound()
@@ -84,7 +84,7 @@ class EngineContext:
                     self.explosions.append(Explosion(lazer.rect.x, lazer.rect.y))
 
     def run(self):
-        self.background.custom_update(self.screen, HEIGHT)
+        self.background.draw(self.screen)
         finished = self.current_stage.run()
         if finished:
             self.next_stage()
