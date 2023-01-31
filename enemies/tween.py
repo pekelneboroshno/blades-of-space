@@ -77,8 +77,8 @@ class Twin(Enemy):
         if self.timeout < 0:
             super().move()
 
-        if (SCREEN_MIDDLE - 250 <= self.rect.x <= SCREEN_MIDDLE + 30) and not isinstance(self.ai, CirclingAI):
-            self.ai = self.ai_circling
+        if (SCREEN_MIDDLE - 250 <= self.rect.x <= SCREEN_MIDDLE + 30) and not isinstance(self.movement, CirclingAI):
+            self.movement = self.ai_circling
 
     def set_image(self):
         self.image = pygame.transform.rotate(

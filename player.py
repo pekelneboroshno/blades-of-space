@@ -17,7 +17,6 @@ class Player(pygame.sprite.Sprite):
         self.fire_delay = 0
         self.screen = screen
         self.hp = 10
-        self.allow_fire = False
 
     # player intersects with group
     def __and__(self, group: pygame.sprite.Group):
@@ -48,13 +47,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += self.speed
 
     def player_fire(self):
-        if self.allow_fire:
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE] and self.fire_delay == 0 and len(lazers) < 6:
-                self.fire_delay = 60
-                lazers.add(Lazer(self.left_gun_pos, self.rect.y))
-                lazers.add(Lazer(self.right_gun_pos, self.rect.y))
-                post_event("shoot")
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and self.fire_delay == 0 and len(lazers) < 6:
+            self.fire_delay = 60
+            lazers.add(Lazer(self.left_gun_pos, self.rect.y))
+            lazers.add(Lazer(self.right_gun_pos, self.rect.y))
+            post_event("shoot")
 
     def update(self):
         if self.fire_delay != 0:

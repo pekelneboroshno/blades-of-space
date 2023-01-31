@@ -3,7 +3,7 @@ import pygame
 from typing import Generator
 from event_handlers import setup_shoot_event_handler, setup_game_music
 from pygame.sprite import GroupSingle
-from background import Background, DynamicBackground
+from background import DynamicBackground
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
 from blades_of_space.player import lazers
