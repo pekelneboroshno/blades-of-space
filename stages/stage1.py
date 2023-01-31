@@ -26,14 +26,14 @@ class Stage(BaseStage):
             increase_timeout = 20
             for enemy in self.enemies:
                 enemy.timeout = timeout
-                enemy.ai = Bee.bee_ai_left
+                enemy.movement = Bee.left
                 enemy.rect.x, enemy.rect.y = Bee.LEFT_START_POSITION
                 timeout += increase_timeout
             yield
             timeout = 0
             for enemy in self.enemies:
                 enemy.timeout = timeout
-                enemy.ai = Bee.bee_ai_right
+                enemy.movement = Bee.right
                 enemy.rect.x, enemy.rect.y = Bee.RIGHT_START_POSITION
                 timeout += increase_timeout
             yield

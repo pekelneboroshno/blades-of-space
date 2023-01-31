@@ -1,7 +1,7 @@
-from .bee import Bee, BeeAI
+from .bee import Bee
 from .tween import Twin
 from .ram import Ram
 from .sparker import Sparker
 from .queen import Queen
 
-__all__ = ["Bee", "BeeAI", "Twin", "Ram", "Sparker", "Queen"]
+__all__ = ["Bee", "Twin", "Ram", "Sparker", "Queen"]

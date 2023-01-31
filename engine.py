@@ -1,12 +1,14 @@
 import pygame
 
 from typing import Generator
-from event_handlers import setup_shoot_event_handler
+from event_handlers import setup_shoot_event_handler, setup_game_music
 from pygame.sprite import GroupSingle
 from background import Background
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
 from blades_of_space.player import lazers
+
+from .events import post_event
 
 from .settings import WIDTH, HEIGHT
 
@@ -25,6 +27,7 @@ class EngineContext:
         self.stages: Generator = get_game_stage(self.player, self)
         self.init_first_stage()
         self.init_sound()
+        self.play_game_music()
 
     def next_stage(self):
         try:
@@ -38,8 +41,12 @@ class EngineContext:
 
     init_first_stage = next_stage
 
+    def play_game_music(self):
+        post_event("music")
+
     def init_sound(self):
         setup_shoot_event_handler()
+        setup_game_music()
 
     def draw_explosions(self):
         for explosion in self.explosions:
