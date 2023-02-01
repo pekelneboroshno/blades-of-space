@@ -5,6 +5,7 @@ from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
 
 from .base import Enemy
 
+
 class SkipStep(Enum):
     zero = auto()
     first = auto()
@@ -13,11 +14,11 @@ class SkipStep(Enum):
     fourth = auto()
 
 
-def move() -> Generator:
+
+def start_position() -> Generator:
     while True:
-        yield (1.5, 0.0), SkipStep.zero
-        yield (0.0, 4.0), SkipStep.first
-        yield (0.0, -4.0), SkipStep.second
+        yield 60
+        yield WIDTH // 2
 
 
 def move_left() -> Generator:
@@ -31,12 +32,10 @@ class Movement:
 
     def __init__(self, obj: Enemy):
         self.enemy = obj
-        self.mv = move()
         self.skip_steps = set()
-        direction, skip = next(self.mv)
-        self.direction = direction
-        self.skip_steps.add(skip)
         self.moving_left = False
+        self.start_position = start_position()
+        self.next_direction()
 
     def allow_attack(self):
         return self.enemy.rect.x in range(100, WIDTH, 200) \
@@ -62,20 +61,12 @@ class Movement:
             and self.moving_left == True
 
     def next_direction(self):
-        direction, skip = next(self.mv)
-        self.direction = direction
-        self.skip_steps.add(skip)
+        self.direction = next(self.start_position)
 
     def reset_direction(self):
         self.skip_steps.clear()
         self.next_direction()
-        self.mv = move()
 
-    def reset_left_direction(self):
-        self.skip_steps.clear()
-        self.mv = move_left()
-        self.next_direction()
-        self.moving_left = True
 
     def change_direction(self):
         if self.allow_attack():
@@ -90,8 +81,8 @@ class Movement:
             self.reset_direction()
 
     def move(self) -> tuple[float, float]:
-        if abs(self.enemy.rect.y) + self.enemy.rect.height > HEIGHT:
-            self.enemy.rect.x = WIDTH // 2
+        if abs(self.enemy.rect.y) > HEIGHT + self.enemy.rect.height :
+            self.enemy.rect.x = next(self.start_position)
             self.enemy.rect.y = -self.enemy.rect.height
         return (0.0, 5.0)
 
