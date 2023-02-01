@@ -36,6 +36,7 @@ class Movement:
         direction, skip = next(self.mv)
         self.direction = direction
         self.skip_steps.add(skip)
+        self.moving_left = False
 
     def allow_attack(self):
         return self.enemy.rect.x in range(100, WIDTH, 200) \
@@ -58,6 +59,7 @@ class Movement:
     def allow_initial(self):
         return self.enemy.rect.x in range(0, 10) \
             and self.enemy.rect.y in range(25, 30) \
+            and self.moving_left == True
 
     def next_direction(self):
         direction, skip = next(self.mv)
@@ -67,6 +69,7 @@ class Movement:
     def reset_direction(self):
         self.skip_steps.clear()
         self.next_direction()
+        self.mv = move()
 
     def reset_left_direction(self):
         self.skip_steps.clear()
@@ -87,8 +90,10 @@ class Movement:
             self.reset_direction()
 
     def move(self) -> tuple[float, float]:
-        self.change_direction()
-        return self.direction
+        if abs(self.enemy.rect.y) + self.enemy.rect.height > HEIGHT:
+            self.enemy.rect.x = WIDTH // 2
+            self.enemy.rect.y = -self.enemy.rect.height
+        return (0.0, 5.0)
 
 
 class Ram(Enemy):
@@ -97,7 +102,7 @@ class Ram(Enemy):
         self.timeout = timeout
         super().__init__(Movement(self))
         self.velocity = 1
-        self.rect.x, self.rect.y = -self.rect.width, 25
+        self.rect.x, self.rect.y = 60, -self.rect.height
         self.hp = 20
 
     def move(self):
