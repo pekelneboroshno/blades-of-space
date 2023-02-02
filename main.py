@@ -11,7 +11,7 @@ def run():
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Blades of spaces v.0.2.5')
+    pygame.display.set_caption('Blades of spaces v.0.2.6')
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(screen))

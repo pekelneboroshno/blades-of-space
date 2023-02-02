@@ -1,11 +1,14 @@
 import pygame
 import os
-from .settings import PROJECT_DIR
+from .settings import PROJECT_DIR, HEIGHT
 from .events import post_event
 from .weapons import Lazer
-
+from enums import Color
 
 lazers = pygame.sprite.Group()
+
+health_item = pygame.Surface((10, 10))
+health_item.fill(Color.yellow.value)
 
 
 class Player(pygame.sprite.Sprite):
@@ -46,6 +49,10 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_DOWN]:
             self.rect.y += self.speed
 
+    def draw_health_bar(self):
+        for i in range(0, self.hp):
+            self.screen.blit(health_item,(5 + i * 15, HEIGHT - 20))
+
     def player_fire(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.fire_delay == 0 and len(lazers) < 6:
@@ -58,4 +65,5 @@ class Player(pygame.sprite.Sprite):
         if self.fire_delay != 0:
             self.fire_delay -= 1
         self.player_movement()
-        return self.player_fire()
+        self.player_fire()
+        self.draw_health_bar()

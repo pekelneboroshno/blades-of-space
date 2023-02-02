@@ -26,6 +26,11 @@ class TitleScreen(BaseStage):
                 SysFont('corbel', 18, True). \
                 render('Pekelne Boroshno ©', True, (255, 255, 255))
 
+        self.controls = pygame.font.\
+                SysFont('corbel', 10, True). \
+                render('arrows to move, space for fire', True, (255, 255, 255))
+
+
         self.counter = 0
 
     def run(self):
@@ -36,6 +41,7 @@ class TitleScreen(BaseStage):
 
         if self.counter % 40 in range(0, 30):
             self.engine.screen.blit(self.start_game, (24, 80))
+        self.engine.screen.blit(self.controls, (24, 100))
 
         self.engine.screen.blit(self.developer, (WIDTH - 160, HEIGHT - 20))
         return self.handle_game_start()

@@ -7,6 +7,8 @@ from background import DynamicBackground
 from explosion import Explosion
 from stages import get_game_stage, BaseStage
 from blades_of_space.player import lazers
+from .settings import HEIGHT
+
 
 from .events import post_event
 
@@ -23,9 +25,16 @@ class EngineContext:
         self.background = DynamicBackground(self.screen)
         self.explosions: list[Explosion] = []
         self.stages: Generator = get_game_stage(self.player, self)
-        self.init_first_stage()
+        self.next_stage()
         self.init_sound()
         self.play_game_music()
+
+        self.controls = pygame.font.\
+                SysFont('corbel', 18, True). \
+                render('Arrows to move, Space to fire', True, (255, 255, 255))
+
+    def show_controls(self):
+        self.screen.blit(self.controls, (0, HEIGHT - 20))
 
     def next_stage(self):
         try:
@@ -38,7 +47,6 @@ class EngineContext:
 
         self.current_stage.engine = self
 
-    init_first_stage = next_stage
 
     def play_game_music(self):
         post_event("music")

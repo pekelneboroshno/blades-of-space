@@ -5,8 +5,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "blades of space"
-version = "0.2.4"
-description = "Racing game"
+version = "0.2.6"
+description = "Shut em up"
 readme = "README.md"
 authors = ["Test <test@test.com>"]
 license = "MIT"
