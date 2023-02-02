@@ -34,7 +34,7 @@ class TitleScreen(BaseStage):
         self.engine.screen.blit(self.image,(0, 0))
         self.engine.screen.blit(self.title, (20, 20))
 
-        if self.counter % 60 in range(0, 30):
+        if self.counter % 40 in range(0, 30):
             self.engine.screen.blit(self.start_game, (24, 80))
 
         self.engine.screen.blit(self.developer, (WIDTH - 160, HEIGHT - 20))

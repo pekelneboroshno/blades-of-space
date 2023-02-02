@@ -4,13 +4,14 @@ from .player import Player
 
 from .settings import WIDTH, HEIGHT
 from .engine import EngineContext
+from .enums import Color
 
 
 def run():
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Blades of spaces v.0.2.4')
+    pygame.display.set_caption('Blades of spaces v.0.2.5')
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(screen))
@@ -25,7 +26,7 @@ def run():
                 pygame.quit()
                 exit()
 
-            screen.fill((0,0,0))
+            screen.fill(Color.black.value)
 
         engine.run()
 

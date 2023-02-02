@@ -1,6 +1,6 @@
 import pygame
 from random import randint
-from typing import Callable, Generator
+from typing import Generator
 
 
 x_speed = float
@@ -10,6 +10,7 @@ y_speed = float
 YELLOW = (255, 255, 0)
 OTHER = (255, 0, 255)
 RED = (237, 22, 7)
+
 
 def direction() -> tuple[x_speed, y_speed]:
     return (0, -5)

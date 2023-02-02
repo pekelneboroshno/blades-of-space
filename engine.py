@@ -10,8 +10,6 @@ from blades_of_space.player import lazers
 
 from .events import post_event
 
-from .settings import WIDTH, HEIGHT
-
 
 class GameContext:
     """For running stages strategies"""
@@ -33,7 +31,8 @@ class EngineContext:
         try:
             self.current_stage: BaseStage = next(self.stages)
         except StopIteration:
-            print("game finished!")
+            print("Game finished!")
+            print("Thanks for playing!")
             pygame.quit()
             exit()
 

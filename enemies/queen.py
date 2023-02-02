@@ -3,7 +3,7 @@ import pygame
 from .base import Enemy
 from ..weapons import VeryBigLazer
 
-from blades_of_space.settings import PROJECT_DIR, WIDTH
+from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
 
 
 class Static:
@@ -12,20 +12,26 @@ class Static:
         return (0, 0)
 
 
+class MoveToPlace:
+
+    def move(self) -> tuple:
+        return (0, 3)
+
+
 class Queen(Enemy):
 
 
     def __init__(self, timeout = 0):
 
         self.timeout = timeout
-        super().__init__(Static())
+        super().__init__(MoveToPlace())
         self.velocity = 2
         self.hp = 30
         self.lazers = pygame.sprite.Group()
+        print(HEIGHT - self.rect.height)
 
-        START_POSITION = (WIDTH // 2 - self.rect.height // 3, 50)
-
-        self.rect.x, self.rect.y = START_POSITION
+        self.rect.x, self.rect.y = (WIDTH // 2 - self.rect.height // 3, -100)
+        self.arrived = False
 
     def update(self, screen):
         super().update()
@@ -33,6 +39,7 @@ class Queen(Enemy):
 
         self.lazers.draw(screen)
         self.lazers.update()
+        self.timeout += 1
 
     def shoot(self):
         if self.timeout % 100 == 0:
@@ -49,9 +56,10 @@ class Queen(Enemy):
             self.kill()
 
     def move(self):
-        self.timeout -= 1
-        if self.timeout < 0:
-            super().move()
+        super().move()
+        if abs(self.rect.y) * 2.5 >= HEIGHT // 3 and not self.arrived:
+            self.arrived = True
+            self.movement = Static()
 
     def set_image(self):
         self.image = pygame.transform.rotate(

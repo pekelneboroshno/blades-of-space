@@ -14,18 +14,10 @@ class SkipStep(Enum):
     fourth = auto()
 
 
-
 def start_position() -> Generator:
     while True:
         yield 60
         yield WIDTH // 2
-
-
-def move_left() -> Generator:
-    while True:
-        yield (-1.5, 0.0), SkipStep.zero
-        yield (0.0, 4.0), SkipStep.first
-        yield (0.0, -4.0), SkipStep.second
 
 
 class Movement:
@@ -37,48 +29,8 @@ class Movement:
         self.start_position = start_position()
         self.next_direction()
 
-    def allow_attack(self):
-        return self.enemy.rect.x in range(100, WIDTH, 200) \
-            and SkipStep.first not in self.skip_steps
-
-    def allow_back(self):
-        return self.enemy.rect.y in range(HEIGHT - self.enemy.rect.height, HEIGHT) \
-            and SkipStep.second not in self.skip_steps
-
-    def allow_right(self):
-        return self.enemy.rect.x in range(100, WIDTH, 200) \
-            and self.enemy.rect.y in range(25, 27) \
-            and self.skip_steps == {SkipStep.zero, SkipStep.first, SkipStep.second}
-
-    def allow_left(self):
-        visible_enemy_from_right = WIDTH - self.enemy.rect.width
-        return self.enemy.rect.x in range(visible_enemy_from_right - 10, visible_enemy_from_right) \
-            and self.enemy.rect.y in range(25, 30)
-
-    def allow_initial(self):
-        return self.enemy.rect.x in range(0, 10) \
-            and self.enemy.rect.y in range(25, 30) \
-            and self.moving_left == True
-
     def next_direction(self):
         self.direction = next(self.start_position)
-
-    def reset_direction(self):
-        self.skip_steps.clear()
-        self.next_direction()
-
-
-    def change_direction(self):
-        if self.allow_attack():
-            self.next_direction()
-        elif self.allow_back():
-            self.next_direction()
-        elif self.allow_right():
-            self.reset_direction()
-        elif self.allow_left():
-            self.reset_left_direction()
-        elif self.allow_initial():
-            self.reset_direction()
 
     def move(self) -> tuple[float, float]:
         if abs(self.enemy.rect.y) > HEIGHT + self.enemy.rect.height :

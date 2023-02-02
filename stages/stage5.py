@@ -1,15 +1,12 @@
-# Queen
 import pygame
 from typing import Generator
 
-from .stage_protocol import BaseStage
+from .stage1 import Stage
 from pygame.sprite import GroupSingle
 from blades_of_space.enemies import Queen, Bee
-from blades_of_space.player import lazers
-from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
 
-class Stage5(BaseStage):
+class Stage5(Stage):
 
     def __init__(self, player: GroupSingle, engine):
         super().__init__(player, engine)
@@ -26,11 +23,6 @@ class Stage5(BaseStage):
 
         self.reset_direction: Generator = self.reset_appearence()
 
-    def is_enemies_visible(self):
-        for i, enemy in enumerate(self.enemies):
-            if i + 1 == len(self.enemies):
-                if enemy.rect.y >= HEIGHT + 300:
-                    next(self.reset_direction)
 
     def reset_appearence(self):
         while True:
@@ -39,7 +31,7 @@ class Stage5(BaseStage):
             for enemy in self.enemies:
                 if isinstance(enemy, Bee):
                     enemy.timeout = timeout
-                    enemy.ai = Bee.bee_ai_left
+                    enemy.movement = Bee.left
                     enemy.rect.x, enemy.rect.y = Bee.LEFT_START_POSITION
                     timeout += increase_timeout
             yield
@@ -47,18 +39,7 @@ class Stage5(BaseStage):
             for enemy in self.enemies:
                 if isinstance(enemy, Bee):
                     enemy.timeout = timeout
-                    enemy.ai = Bee.bee_ai_right
+                    enemy.movement = Bee.right
                     enemy.rect.x, enemy.rect.y = Bee.RIGHT_START_POSITION
                     timeout += increase_timeout
             yield
-
-    def run(self):
-        super().run()
-
-        lazers.draw(self.engine.screen)
-        lazers.update()
-
-        self.is_enemies_visible()
-
-        if not len(self.enemies):
-            return STAGE_FINISHED
