@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "blades of space"
-version = "0.2.6"
+version = "0.2.7"
 description = "Shut em up"
 readme = "README.md"
 authors = ["Test <test@test.com>"]

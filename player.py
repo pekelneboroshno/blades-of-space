@@ -50,8 +50,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y > HEIGHT - self.rect.width:
             self.rect.y = HEIGHT - self.rect.width
 
-        # or \
-           # self.rect.y in (0, abs(HEIGHT) - self.rect.height):
         else:
             if keys[pygame.K_LEFT]:
                 self.rect.x -= self.speed
