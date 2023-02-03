@@ -1,6 +1,6 @@
 import pygame
 import os
-from .settings import PROJECT_DIR, HEIGHT
+from .settings import PROJECT_DIR, HEIGHT, WIDTH
 from .events import post_event
 from .weapons import Lazer
 from enums import Color
@@ -40,14 +40,28 @@ class Player(pygame.sprite.Sprite):
 
     def player_movement(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.rect.x -= self.speed
-        if keys[pygame.K_RIGHT]:
-            self.rect.x += self.speed
-        if keys[pygame.K_UP]:
-            self.rect.y -= self.speed
-        if keys[pygame.K_DOWN]:
-            self.rect.y += self.speed
+
+        if self.rect.x <= 0:
+            self.rect.x = 0
+        if self.rect.x > WIDTH - self.rect.width:
+            self.rect.x = WIDTH - self.rect.width
+        if self.rect.y < 0:
+            self.rect.y = 0
+        if self.rect.y > HEIGHT - self.rect.width:
+            self.rect.y = HEIGHT - self.rect.width
+
+        # or \
+           # self.rect.y in (0, abs(HEIGHT) - self.rect.height):
+        else:
+            if keys[pygame.K_LEFT]:
+                self.rect.x -= self.speed
+            if keys[pygame.K_RIGHT]:
+                self.rect.x += self.speed
+            if keys[pygame.K_UP]:
+                self.rect.y -= self.speed
+            if keys[pygame.K_DOWN]:
+                self.rect.y += self.speed
+
 
     def draw_health_bar(self):
         for i in range(0, self.hp):

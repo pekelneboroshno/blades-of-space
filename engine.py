@@ -28,6 +28,7 @@ class EngineContext:
         self.next_stage()
         self.init_sound()
         self.play_game_music()
+        self.player_damage = 0
 
         self.controls = pygame.font.\
                 SysFont('corbel', 18, True). \
@@ -62,11 +63,14 @@ class EngineContext:
     def process_player_collisions(self, enemies):
         enemy = self.player.sprite & enemies
         if enemy:
-            enemy.kill()
-            self.explosions.append(Explosion(
-                enemy.rect.x + enemy.rect.width / 2,
-                enemy.rect.y + enemy.rect.height / 2
-            ))
+            self.player_damage += 1
+            if self.player_damage == 50:
+                self.player.sprite.hp -= 1
+                self.player_damage = 0
+                self.explosions.append(Explosion(
+                    enemy.rect.x + enemy.rect.width / 2,
+                    enemy.rect.y + enemy.rect.height / 2
+                ))
 
         self.process_player_collisions_with_lazers(enemies)
 

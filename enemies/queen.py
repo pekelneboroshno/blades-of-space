@@ -28,7 +28,6 @@ class Queen(Enemy):
         self.velocity = 2
         self.hp = 30
         self.lazers = pygame.sprite.Group()
-        print(HEIGHT - self.rect.height)
 
         self.rect.x, self.rect.y = (WIDTH // 2 - self.rect.height // 3, -100)
         self.arrived = False
