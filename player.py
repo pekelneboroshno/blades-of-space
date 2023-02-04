@@ -41,6 +41,7 @@ class Player(pygame.sprite.Sprite):
     def player_movement(self):
         keys = pygame.key.get_pressed()
 
+        # Handle borders
         if self.rect.x <= 0:
             self.rect.x = 0
         if self.rect.x > WIDTH - self.rect.width:

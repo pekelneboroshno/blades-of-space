@@ -2,11 +2,7 @@ import pygame
 import random
 from dataclasses import dataclass, field
 from pygame import Rect
-
-
-YELLOW = (255, 255, 0,)
-BLOODY_RED = (153, 0, 51,)
-LIGHT_YELLOW = (153, 255, 204,)
+from blades_of_space.enums import Color
 
 
 def generate_direction() -> tuple:
@@ -19,7 +15,9 @@ class Spark:
     y: int
     width: int = field(default_factory=lambda: random.randint(5, 7))
     height: int = field(default_factory=lambda: random.randint(2, 7))
-    color: tuple = field(default_factory=lambda: random.choice([YELLOW, BLOODY_RED, LIGHT_YELLOW]))
+    color: tuple = field(default_factory=lambda: random.choice([
+        Color.yellow.value, Color.bloody_red.value, Color.light_yellow.value
+    ]))
     vel: float = field(default_factory=lambda: random.uniform(0.1, 1.5))
     timer: int = field(default_factory=lambda: random.randint(-25, 0))
     is_visible: bool = True
@@ -43,6 +41,6 @@ class Explosion:
         self.y = y
         self.sparks = [Spark(self.x, self.y) for _ in range(sparks_count)]
 
-    def draw(self, win):
+    def draw(self, screen):
         for spark in self.sparks:
-            spark.draw(win)
+            spark.draw(screen)

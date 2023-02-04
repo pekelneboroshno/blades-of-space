@@ -3,7 +3,6 @@ from .stage_protocol import BaseStage
 from typing import Generator
 from pygame.sprite import GroupSingle
 from blades_of_space.enemies import Bee
-from blades_of_space.player import lazers
 from blades_of_space.settings import HEIGHT, STAGE_FINISHED
 
 
@@ -48,9 +47,6 @@ class Stage(BaseStage):
         super().run()
 
         self.is_enemies_visible()
-
-        lazers.draw(self.engine.screen)
-        lazers.update()
 
         if not len(self.enemies):
             return STAGE_FINISHED

@@ -4,19 +4,19 @@ from blades_of_space.settings import PROJECT_DIR, WIDTH
 from ..weapons import BigLazer
 
 
-class AIRight:
+class Right:
 
     def move(self) -> tuple:
         return (-1, 0.7)
 
 
-class AILeft:
+class Left:
 
     def move(self) -> tuple:
         return (1, 0.7)
 
 
-class CirclingAI:
+class Circling:
 
     def __init__(self):
         def inner():
@@ -42,15 +42,15 @@ SCREEN_MIDDLE = WIDTH / 2
 
 class Twin(Enemy):
 
-    ai_left = AILeft()
-    ai_right = AIRight()
-    ai_circling = CirclingAI()
+    left = Left()
+    right = Right()
+    circling = Circling()
 
     RIGHT_START_POSITION = (WIDTH, 0)
     LEFT_START_POSITION = (-230, 0)
 
 
-    def __init__(self, timeout = 0, position: tuple = RIGHT_START_POSITION, config = ai_right):
+    def __init__(self, timeout = 0, position: tuple = RIGHT_START_POSITION, config = right):
         self.timeout = timeout
         super().__init__(config)
         self.velocity = 2
@@ -77,8 +77,8 @@ class Twin(Enemy):
         if self.timeout < 0:
             super().move()
 
-        if (SCREEN_MIDDLE - 250 <= self.rect.x <= SCREEN_MIDDLE + 30) and not isinstance(self.movement, CirclingAI):
-            self.movement = self.ai_circling
+        if (SCREEN_MIDDLE - 250 <= self.rect.x <= SCREEN_MIDDLE + 30) and not isinstance(self.movement, Circling):
+            self.movement = self.circling
 
     def set_image(self):
         self.image = pygame.transform.rotate(

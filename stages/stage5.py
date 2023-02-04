@@ -13,7 +13,7 @@ class Stage5(Stage):
 
         self.enemies = pygame.sprite.Group()
         self.enemies.add(
-            Queen(0)
+            Queen()
         )
 
         for timeout in range(0, 200, 20):

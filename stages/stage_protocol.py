@@ -2,6 +2,7 @@ import pygame
 from abc import ABC
 from pygame.sprite import GroupSingle, Group
 from typing import Any
+from blades_of_space.player import lazers
 
 
 class BaseStage(ABC):
@@ -27,6 +28,9 @@ class BaseStage(ABC):
         self.engine.process_player_collisions(self.enemies)
 
         self.engine.draw_explosions()
+
+        lazers.draw(self.engine.screen)
+        lazers.update()
 
         if self.player.sprite.hp <= 0:
             print("player is killed")

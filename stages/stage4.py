@@ -14,14 +14,11 @@ class Stage4(BaseStage):
 
         self.enemies = pygame.sprite.Group()
         self.enemies.add(
-            Sparker(0)
+            Sparker()
         )
 
     def run(self):
         super().run()
-
-        lazers.draw(self.engine.screen)
-        lazers.update()
 
         if not len(self.enemies):
             return STAGE_FINISHED

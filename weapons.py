@@ -1,15 +1,11 @@
 import pygame
 from random import randint
 from typing import Generator
+from .enums import Color
 
 
 x_speed = float
 y_speed = float
-
-
-YELLOW = (255, 255, 0)
-OTHER = (255, 0, 255)
-RED = (237, 22, 7)
 
 
 def direction() -> tuple[x_speed, y_speed]:
@@ -35,7 +31,7 @@ class Lazer(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.Surface((3, 10))
-        self.image.fill(YELLOW)
+        self.image.fill(Color.yellow.value)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -55,7 +51,7 @@ class BigLazer(Lazer):
         super().__init__(x, y)
         self.direction = next(gen)
         self.image = pygame.Surface((10, 10))
-        self.image.fill(OTHER)
+        self.image.fill(Color.some_other_color.value)
 
 
 class VeryBigLazer(Lazer):
@@ -64,4 +60,4 @@ class VeryBigLazer(Lazer):
         super().__init__(x, y)
         self.direction = up_to_down()
         self.image = pygame.Surface((10, 25))
-        self.image.fill(RED)
+        self.image.fill(Color.red.value)

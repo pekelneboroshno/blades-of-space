@@ -23,13 +23,13 @@ class Left:
 
 class Sparker(Enemy):
 
-    bee_ai_left = Left()
-    bee_ai_right = Right()
+    left_movement = Left()
+    right_movement = Right()
 
 
     def __init__(self, timeout = 0):
         self.timeout = timeout
-        super().__init__(self.bee_ai_right)
+        super().__init__(self.right_movement)
         self.velocity = 2
         self.rect.x, self.rect.y = WIDTH + self.rect.width, 50
         self.hp = 16
@@ -62,10 +62,10 @@ class Sparker(Enemy):
             super().move()
 
         if self.rect.x < 0:
-            self.movement = self.bee_ai_left
+            self.movement = self.left_movement
 
         elif self.rect.x > WIDTH - self.rect.height + 40 and self.movement.direction == "left":
-             self.movement = self.bee_ai_right
+             self.movement = self.right_movement
 
     def set_image(self):
         self.image = pygame.transform.rotate(
