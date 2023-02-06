@@ -1,10 +1,11 @@
 import pygame
+from pathlib import Path
 
-from .player import Player
+from game.player import Player
 
-from .settings import WIDTH, HEIGHT
-from .engine import EngineContext
-from .enums import Color
+from game.settings import WIDTH, HEIGHT
+from game.engine import EngineContext
+from game.enums import Color
 
 
 def run():
@@ -35,4 +36,6 @@ def run():
 
 
 if __name__ == "__main__":
+    import sys
+    sys.path.append(str(Path.cwd()))
     run()

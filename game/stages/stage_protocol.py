@@ -2,7 +2,8 @@ import pygame
 from abc import ABC
 from pygame.sprite import GroupSingle, Group
 from typing import Any
-from blades_of_space.player import lazers
+
+from game.player import lazers
 
 
 class BaseStage(ABC):

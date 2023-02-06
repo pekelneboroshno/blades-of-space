@@ -1,7 +1,8 @@
 import pygame
 from random import randint
 from typing import Generator
-from .enums import Color
+
+from game.enums import Color
 
 
 x_speed = float

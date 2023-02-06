@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import GroupSingle, Group
-from blades_of_space.settings import (
+
+from game.settings import (
     PROJECT_DIR, HEIGHT, WIDTH
 )
 from .stage_protocol import BaseStage

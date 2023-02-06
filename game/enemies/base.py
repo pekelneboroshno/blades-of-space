@@ -1,7 +1,8 @@
 import pygame
 from typing import Protocol
-from blades_of_space.settings import WIDTH
 from abc import ABCMeta, abstractmethod
+
+from game.settings import WIDTH
 
 
 class Movement(Protocol):

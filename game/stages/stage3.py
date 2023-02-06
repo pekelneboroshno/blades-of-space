@@ -1,20 +1,21 @@
 import pygame
-from .stage_protocol import BaseStage
 from pygame.sprite import GroupSingle
-from blades_of_space.enemies import Twin
-from blades_of_space.player import lazers
-from blades_of_space.settings import STAGE_FINISHED
+
+from game.enemies import Ram
+from game.player import lazers
+from game.settings import STAGE_FINISHED
+
+from .stage_protocol import BaseStage
 
 
-class Stage2(BaseStage):
+class Stage3(BaseStage):
 
     def __init__(self, player: GroupSingle, engine):
         super().__init__(player, engine)
 
         self.enemies = pygame.sprite.Group()
         self.enemies.add(
-            Twin(0),
-            Twin(0, Twin.LEFT_START_POSITION, Twin.left)
+            Ram()
         )
 
     def run(self):

@@ -2,7 +2,8 @@ import pygame
 import random
 from dataclasses import dataclass, field
 from pygame import Rect
-from blades_of_space.enums import Color
+
+from game.enums import Color
 
 
 def generate_direction() -> tuple:

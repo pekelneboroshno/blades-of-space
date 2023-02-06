@@ -1,9 +1,11 @@
 import pygame
-from .stage_protocol import BaseStage
-from typing import Generator
 from pygame.sprite import GroupSingle
-from blades_of_space.enemies import Bee
-from blades_of_space.settings import HEIGHT, STAGE_FINISHED
+from typing import Generator
+
+from game.enemies import Bee
+from game.settings import HEIGHT, STAGE_FINISHED
+
+from .stage_protocol import BaseStage
 
 
 class Stage(BaseStage):

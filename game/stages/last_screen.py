@@ -1,6 +1,7 @@
 import pygame
-from blades_of_space.settings import WIDTH, HEIGHT
 from pygame.sprite import GroupSingle, Group
+
+from game.settings import WIDTH, HEIGHT
 from .stage_protocol import BaseStage
 
 

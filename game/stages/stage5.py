@@ -1,9 +1,10 @@
 import pygame
 from typing import Generator
+from pygame.sprite import GroupSingle
+
+from game.enemies import Queen, Bee
 
 from .stage1 import Stage
-from pygame.sprite import GroupSingle
-from blades_of_space.enemies import Queen, Bee
 
 
 class Stage5(Stage):

@@ -2,7 +2,8 @@ import os
 import pygame
 from typing import Generator
 from enum import Enum, auto
-from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
+
+from game.settings import PROJECT_DIR, WIDTH, HEIGHT
 
 from .base import Enemy
 

@@ -1,9 +1,10 @@
 import pygame
 import os
-from .settings import PROJECT_DIR, HEIGHT, WIDTH
-from .events import post_event
-from .weapons import Lazer
-from enums import Color
+
+from game.settings import PROJECT_DIR, HEIGHT, WIDTH
+from game.events import post_event
+from game.weapons import Lazer
+from game.enums import Color
 
 lazers = pygame.sprite.Group()
 

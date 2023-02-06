@@ -1,13 +1,13 @@
 import pygame
-
-from typing import Generator
-from event_handlers import setup_shoot_event_handler, setup_game_music
 from pygame.sprite import GroupSingle
-from background import DynamicBackground
-from explosion import Explosion
-from stages import get_game_stage, BaseStage
-from blades_of_space.player import lazers
-from .settings import HEIGHT
+from typing import Generator
+
+from game.event_handlers import setup_shoot_event_handler, setup_game_music
+from game.background import DynamicBackground
+from game.explosion import Explosion
+from game.stages import get_game_stage, BaseStage
+from game.player import lazers
+from game.settings import HEIGHT
 
 
 from .events import post_event

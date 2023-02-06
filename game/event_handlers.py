@@ -1,7 +1,7 @@
 import os
 from pygame import mixer
-from blades_of_space.settings import PROJECT_DIR
-from blades_of_space.events import subscribe
+from game.settings import PROJECT_DIR
+from game.events import subscribe
 
 
 mixer.init()

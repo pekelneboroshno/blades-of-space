@@ -1,11 +1,11 @@
 import pygame
 import random
-
 from dataclasses import dataclass, field
-from blades_of_space.settings import WIDTH, HEIGHT
-from blades_of_space.explosion import Spark
 
-from enums import Color
+from game.settings import WIDTH, HEIGHT
+from game.explosion import Spark
+
+from game.enums import Color
 
 
 @dataclass

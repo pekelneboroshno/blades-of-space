@@ -1,7 +1,7 @@
 import pygame
 import os
 from .base import Enemy
-from blades_of_space.settings import PROJECT_DIR, WIDTH
+from game.settings import PROJECT_DIR, WIDTH
 
 
 class Right:

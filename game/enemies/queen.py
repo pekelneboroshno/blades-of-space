@@ -1,10 +1,10 @@
 import pygame
 import os
 
-from .base import Enemy
-from ..weapons import VeryBigLazer
+from game.weapons import VeryBigLazer
+from game.settings import PROJECT_DIR, WIDTH, HEIGHT
 
-from blades_of_space.settings import PROJECT_DIR, WIDTH, HEIGHT
+from .base import Enemy
 
 
 class Static:
