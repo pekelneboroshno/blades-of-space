@@ -1,4 +1,5 @@
 import pygame
+import sys
 from pathlib import Path
 
 from game.player import Player
@@ -25,7 +26,7 @@ def run():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                exit()
+                sys.exit()
 
             screen.fill(Color.black.value)
 
