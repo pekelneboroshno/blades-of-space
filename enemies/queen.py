@@ -1,4 +1,5 @@
 import pygame
+import os
 
 from .base import Enemy
 from ..weapons import VeryBigLazer
@@ -62,6 +63,6 @@ class Queen(Enemy):
 
     def set_image(self):
         self.image = pygame.transform.rotate(
-            pygame.image.load(f"{PROJECT_DIR}/images/Queen.png" ).convert_alpha(), 180
+            pygame.image.load(os.path.join(PROJECT_DIR, "images", "Queen.png")).convert_alpha(), 180
         )
         self.image = pygame.transform.rotozoom(self.image, 1.0, 1.2)

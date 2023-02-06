@@ -1,4 +1,5 @@
 import pygame
+import os
 from .base import Enemy
 from blades_of_space.settings import PROJECT_DIR, WIDTH
 from ..weapons import BigLazer
@@ -82,7 +83,7 @@ class Twin(Enemy):
 
     def set_image(self):
         self.image = pygame.transform.rotate(
-            pygame.image.load(f"{PROJECT_DIR}/images/Twin.png" ).convert_alpha(), 180
+            pygame.image.load(os.path.join(PROJECT_DIR, "images", "Twin.png")).convert_alpha(), 180
         )
         self.image = pygame.transform.rotozoom(self.image, 1.0, 1.3)
 

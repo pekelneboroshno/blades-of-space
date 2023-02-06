@@ -1,3 +1,4 @@
+import os
 import pygame
 from typing import Generator
 from enum import Enum, auto
@@ -58,7 +59,7 @@ class Ram(Enemy):
 
     def set_image(self):
         self.image = pygame.transform.rotate(
-            pygame.image.load(f"{PROJECT_DIR}/images/Ram.png" ).convert_alpha(), 0
+            pygame.image.load(os.path.join(PROJECT_DIR, "images", "Ram.png")).convert_alpha(), 0
         )
 
     def hit(self):
